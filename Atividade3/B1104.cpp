@@ -6,11 +6,11 @@ using namespace std;
 int main()
 {
     int A, B;
-    set <int> AliceCartas;
-    set <int> BeatrizCartas;
 
     while (cin >> A >> B)
     {
+    set<int> AliceCartas;
+    set<int> BeatrizCartas;
         if (A == 0 && B == 0)
         {
             break;
@@ -30,19 +30,18 @@ int main()
             BeatrizCartas.insert(carta);
         }
 
-        int cartasTrocadas = 0;
-        while (!AliceCartas.empty() && !BeatrizCartas.empty())
+        // Calcular a interseção
+        set<int> intersecao;
+        for (int carta : AliceCartas)
         {
-            int cartaAlice = *AliceCartas.begin();
-            int cartaBeatriz = *BeatrizCartas.begin();
-
-            if (AliceCartas.count(cartaBeatriz) + BeatrizCartas.count(cartaAlice) == 0)
+            if (BeatrizCartas.count(carta) > 0)
             {
-                cartasTrocadas++;
+                intersecao.insert(carta);
             }
-            AliceCartas.erase(cartaAlice);
-            BeatrizCartas.erase(cartaBeatriz);
         }
+
+        // Pegar a quantidade mínima de cartas entre Alice e Beatriz
+        int cartasTrocadas = min(AliceCartas.size() - intersecao.size(), BeatrizCartas.size() - intersecao.size());
 
         cout << cartasTrocadas << endl;
     }
